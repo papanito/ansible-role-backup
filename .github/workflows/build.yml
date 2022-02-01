@@ -26,4 +26,6 @@ jobs:
     - name: Create ansible.cfg with correct roles_path
       run: printf '[defaults]\nroles_path=../:./' >ansible.cfg
     - name: Run ansible syntax-check
-      run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+      run: ansible-playbook tests/test_borg.yml -i tests/inventory --syntax-check
+    - name: Run ansible syntax-check
+      run: ansible-playbook tests/test_restic.yml -i tests/inventory --syntax-check
