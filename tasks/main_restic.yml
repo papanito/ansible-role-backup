@@ -2,18 +2,19 @@
 - name: Set `target_location` to local
   set_fact:
     target_location: "{{ backup_target_dir }}"
-  when: backup_restic_repo == "local"
+  when: backup_restic_repo is not defined
 - name: Set `target_location` to local directory
   set_fact:
-    target_location: "{{ backup_restic_repo }}/{{ backup_target_dir }}"
-  when: backup_restic_repo != "local"
+    target_location: "{{ backup_restic_repo }}:/{{ backup_target_dir }}"
+  when: backup_restic_repo is defined
 - name: Set service name
   set_fact:
     service_name: "{{ backup_name }}-{{ backup_restic_repo | replace(':','-') | replace('/','') }}"
+  when: backup_restic_repo is defined
 - name: Set service name
   set_fact:
     service_name: "{{ backup_name }}-local"
-  when: backup_restic_repo == "local"
+  when: backup_restic_repo is not defined
 - name: Install restic
   import_tasks: install-restic.yml
 - name: Delete restic repository

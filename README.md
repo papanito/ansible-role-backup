@@ -1,6 +1,6 @@
 # Ansible role "papanito.backup" <!-- omit in toc -->
 
-[![Ansible Role](https://img.shields.io/ansible/role/47022)](https://galaxy.ansible.com/papanito/borg) [![Ansible Quality Score](https://img.shields.io/ansible/quality/47022)](https://galaxy.ansible.com/papanito/borg) [![Ansible Role](https://img.shields.io/ansible/role/d/47022)](https://galaxy.ansible.com/papanito/borg) [![GitHub issues](https://img.shields.io/github/issues/papanito/ansible-role-backup)](https://github.com/papanito/ansible-role-backup/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/papanito/ansible-role-backup)](https://github.com/papanito/ansible-role-backup/pulls)
+[![Ansible Role](https://img.shields.io/ansible/role/57847)](https://galaxy.ansible.com/papanito/borg) [![Ansible Quality Score](https://img.shields.io/ansible/quality/57847)](https://galaxy.ansible.com/papanito/borg) [![Ansible Role](https://img.shields.io/ansible/role/d/57847)](https://galaxy.ansible.com/papanito/borg) [![GitHub issues](https://img.shields.io/github/issues/papanito/ansible-role-backup)](https://github.com/papanito/ansible-role-backup/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/papanito/ansible-role-backup)](https://github.com/papanito/ansible-role-backup/pulls)
 
 Ansible role do install and setup regular backups with either
 
@@ -12,18 +12,18 @@ The role performs the following steps:
 - [Optional] Delete existing repository
 - Initialize a repository
   - [borg][borg init]: 
-    - `backup_borg_protocol`://`backup_borg_server`:`backup_target_dir` for a remote or 
+    - `backup_borg_protocol`://`backup_borg_server`:`backup_target_dir` for a remote backup or
     - `backup_target_dir` for a local backup
   - [restic][restic init]:
-    - `
+    - `backup_restic_repo` for a remote backup or
     - `backup_target_dir` for a local backup
 
   > **Notes**
   >
   > In case the repo `backup_target_dir` already exists, the initalization will be skipped
-  > If `backup_borg_server` is not specified role assumes a local backup i.e. to a local directory
+  > If `backup_borg_server` nor `backup_restic_repo` are not specified role assumes a local backup i.e. to a local directory
 
-- Create a `systemd` service which regularly (according to `backup_schedule`) runs script 
+- Create a `systemd` service which regularly (according to `backup_schedule`) runs script
   - [borg]: `borg.sh` from [borgbackup.org](https://borgbackup.readthedocs.io/en/stable/quickstart.html#automating-backups)
   - [restic]: `restic.sh` a modified `borg.sh` script considering restic command
 - There will be an individual script named `automatic-backup-{{service_name}}.sh` in `/opt/backup` which is customized with
@@ -222,26 +222,32 @@ This will create a backup at `ssh://borguser@borg.intra:/var/backup/mybackupname
 - `/etc/systemd/system/automatic-backup-mybackupname-borg.intra.service` (systemd service file)
 - `/etc/systemd/system/automatic-backup-mybackupname-borg.intra.timer` (systemd timers file)
 
-### Example Playbook local backup
+### Example Playbooks
+
+#### local backup with borg
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
 ```yaml
 - hosts: localhost
-vars:
-- backup_name: mybackupname
-- backup_borg_encryption_key: test
-- backup_target_dir: "/var/backup/"
-- backup_schedule: "*-*-* 03:00:00"
-- backup_exclude_list:
-- "*/Downloads"
-- "*/google-chrome*"
-- backup_include_list:
-- /home/papanito
-- backup_prune_keep_daily: 7
-- backup_prune_keep_weekly: 5
-- backup_prune_keep_monthly: 6
-- backup_prune_keep_yearly: 1
+  vars:
+  - backup_engine: borg
+  - backup_name: mybackupname
+  - backup_borg_encryption_key: test
+  - backup_target_dir: "/var/backup/"
+  - backup_schedule: "*-*-* 03:00:00"
+  - backup_exclude_list:
+    - "*/Downloads"
+    - "*/google-chrome*"
+  - backup_include_list:
+    - /home/papanito
+  - backup_prune_keep_daily: 7
+  - backup_prune_keep_weekly: 5
+  - backup_prune_keep_monthly: 6
+  - backup_prune_keep_yearly: 1
+
+  roles:
+    - papanito.backup
 ```
 
 This will create a backup at `/var/backup/mybackupname` and the following systemd files
@@ -249,6 +255,30 @@ This will create a backup at `/var/backup/mybackupname` and the following system
 - `/opt/borg_backups/automatic-backup-mybackupname-local.sh` (backup script)
 - `/etc/systemd/system/automatic-backup-mybackupname-local.service` (systemd service file)
 - `/etc/systemd/system/automatic-backup-mybackupname-local.timer` (systemd timers file)
+
+#### Remote backup with restic
+
+```yaml
+- hosts: localhost
+  remote_user: root
+  vars:
+  - backup_engine: restic
+  - backup_include_list:
+    - /home/aedu/Downloads/Fotos
+  - backup_engine: restic
+  - backup_systemd_user: root
+  - backup_name: test
+  - backup_borg_encryption_key: test
+  - backup_target_dir: "/test"
+  - backup_delete: true
+  - backup_create: true
+  - backup_source_dir: ./defaults
+  - B2_ACCOUNT_ID: XXXX
+  - B2_ACCOUNT_KEY: XXXX
+
+  roles:
+    - papanito.backup
+```
 
 ## License
 
