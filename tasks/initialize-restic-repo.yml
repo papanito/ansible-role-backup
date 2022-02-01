@@ -1,12 +1,14 @@
 - name: initialize restic if not already done
   block:
-    - name: check status of restic repo
+    - name: check status of restic repo {{ target_location }}/{{ backup_name }}
       expect:
         command: restic stats -r {{ target_location }}/{{ backup_name }}
         responses:
           password: "{{ backup_borg_encryption_key }}"
+      become: true
+      become_user: "{{ backup_systemd_user }}"
   rescue:
-  - name: initialize restic
+  - name: initialize restic repo {{ target_location }}/{{ backup_name }}
     expect:
       command: restic init -r {{ target_location }}/{{ backup_name }}
       responses:
