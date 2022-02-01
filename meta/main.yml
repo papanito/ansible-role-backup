@@ -1,0 +1,28 @@
+galaxy_info:
+  role_name: backup
+  namespace: papanito
+  author: Adrian Wyssmann
+  description: Ansible role do install and setup regular backups with borg or restic
+  company: wyssmann.com
+  license: Apache
+  issue_tracker_url: https://github.com/papanito/ansible-role-backup/issues
+
+  min_ansible_version: 2.0
+
+  platforms:
+  - name: EL
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+
+  galaxy_tags:
+    - backup
+    - borg
+    - restic
+
+dependencies: []

@@ -1,0 +1,32 @@
+---
+- name: Set `target_location` to remote
+  set_fact:
+    target_location: "{{ backup_borg_protocol }}://{{ backup_user }}@{{ backup_borg_server }}:{{ backup_port }}/{{ backup_target_dir }}"
+  when: backup_borg_server is defined
+- name: Set `target_location` to local directory
+  set_fact:
+    target_location: "{{ backup_target_dir }}"
+  when: backup_borg_server is not defined
+- name: Set service name
+  set_fact:
+    service_name: "{{ backup_name }}-{{ backup_borg_server }}"
+  when: backup_borg_server is defined
+- name: Set service name
+  set_fact:
+    service_name: "{{ backup_name }}-local"
+  when: backup_borg_server is not defined
+- name: Install borg
+  import_tasks: install-borg.yml
+- name: Delete borg repository
+  import_tasks: delete-borg-repo.yml
+  when: backup_delete
+- name: Delete systemd service
+  import_tasks: delete-service.yml
+  when: backup_delete 
+- name: Initialize borg repository
+  import_tasks: initialize-borg-repo.yml
+  when: backup_create
+- name: Install borg systemd service
+  import_tasks: install-service.yml
+  when: backup_create
+  become: yes

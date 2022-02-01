@@ -1,0 +1,184 @@
+#!/bin/sh
+
+# Setting this, so the repo does not need to be given on the commandline:
+
+export RESTIC_REPOSITORY={{ target_location }}/{{ backup_name }}
+
+# Setting this, so you won't be asked for your repository passphrase:
+export RESTIC_PASSWORD='{{ backup_borg_encryption_key }}'
+
+{% if AWS_ACCESS_KEY_ID is defined %}
+export AWS_ACCESS_KEY_ID={{ AWS_ACCESS_KEY_ID }}
+{% endif %}
+{% if AWS_DEFAULT_REGION is defined %}
+export AWS_DEFAULT_REGION={{ AWS_DEFAULT_REGION }}
+{% endif %}
+{% if AWS_SECRET_ACCESS_KEY is defined %}
+export AWS_SECRET_ACCESS_KEY={{ AWS_SECRET_ACCESS_KEY }}
+{% endif %}
+{% if AZURE_ACCOUNT_KEY is defined %}
+export AZURE_ACCOUNT_KEY={{ AZURE_ACCOUNT_KEY }}
+{% endif %}
+{% if AZURE_ACCOUNT_NAME is defined %}
+export AZURE_ACCOUNT_NAME={{ AZURE_ACCOUNT_NAME }}
+{% endif %}
+{% if B2_ACCOUNT_ID is defined %}
+export B2_ACCOUNT_ID={{ B2_ACCOUNT_ID }}
+{% endif %}
+{% if B2_ACCOUNT_KEY is defined %}
+export B2_ACCOUNT_KEY={{ B2_ACCOUNT_KEY }}
+{% endif %}
+{% if GOOGLE_APPLICATION_CREDENTIALS is defined %}
+export GOOGLE_APPLICATION_CREDENTIALS={{ GOOGLE_APPLICATION_CREDENTIALS }}
+{% endif %}
+{% if GOOGLE_PROJECT_ID is defined %}
+export GOOGLE_PROJECT_ID={{ GOOGLE_PROJECT_ID }}
+{% endif %}
+{% if OS_APPLICATION_CREDENTIAL_ID is defined %}
+export OS_APPLICATION_CREDENTIAL_ID={{ OS_APPLICATION_CREDENTIAL_ID }}
+{% endif %}
+{% if OS_APPLICATION_CREDENTIAL_NAME is defined %}
+export OS_APPLICATION_CREDENTIAL_NAME={{ OS_APPLICATION_CREDENTIAL_NAME }}
+{% endif %}
+{% if OS_APPLICATION_CREDENTIAL_SECRET is defined %}
+export OS_APPLICATION_CREDENTIAL_SECRETS={{ OS_APPLICATION_CREDENTIAL_SECRETS }}
+{% endif %}
+{% if OS_AUTH_TOKEN is defined %}
+export OS_AUTH_TOKEN={{ OS_AUTH_TOKEN }}
+{% endif %}
+{% if OS_AUTH_URL is defined %}
+export OS_AUTH_URL={{ OS_AUTH_URL }}
+{% endif %}
+{% if OS_PASSWORD is defined %}
+export OS_PASSWORD={{ OS_PASSWORD }}
+{% endif %}
+{% if OS_PROJECT_DOMAIN_ID is defined %}
+export OS_PROJECT_DOMAIN_ID={{ OS_PROJECT_DOMAIN_ID }}
+{% endif %}
+{% if OS_PROJECT_DOMAIN_NAME is defined %}
+export OS_PROJECT_DOMAIN_NAME={{ OS_PROJECT_DOMAIN_NAME }}
+{% endif %}
+{% if OS_PROJECT_NAME is defined %}
+export OS_PROJECT_NAME={{ OS_PROJECT_NAME }}
+{% endif %}
+{% if OS_REGION_NAME is defined %}
+export OS_REGION_NAME={{ OS_REGION_NAME }}
+{% endif %}
+{% if OS_STORAGE_URL is defined %}
+export OS_TENANT_ID={{ OS_TENANT_ID }}
+{% endif %}
+{% if OS_TENANT_ID is defined %}
+export OS_TENANT_NAME={{ OS_TENANT_NAME }}
+{% endif %}
+{% if OS_TENANT_NAME is defined %}
+export OS_TRUST_ID={{ OS_TRUST_ID }}
+{% endif %}
+{% if OS_TRUST_ID is defined %}
+export OS_USER_DOMAIN_ID={{ OS_USER_DOMAIN_ID }}
+{% endif %}
+{% if OS_USER_DOMAIN_ID is defined %}
+export OS_USER_DOMAIN_NAME={{ OS_USER_DOMAIN_NAME }}
+{% endif %}
+{% if OS_USER_DOMAIN_NAME is defined %}
+export OS_USER_ID={{ OS_USER_ID }}
+{% endif %}
+{% if OS_USER_ID is defined %}
+export OS_USERNAME={{ OS_USERNAME }}
+{% endif %}
+{% if OS_USERNAME is defined %}
+export SOS_STORAGE_URL={{ SOS_STORAGE_URL }}
+{% endif %}
+{% if ST_AUTH is defined %}
+export ST_AUTH={{ ST_AUTH }}
+{% endif %}
+{% if ST_KEY is defined %}
+export ST_KEY={{ ST_KEY }}
+{% endif %}
+{% if ST_USER is defined %}
+export ST_USER={{ ST_USER }}
+{% endif %}
+
+# some helpers and error handling:
+info() { printf "\n%s %s\n\n" "$( date )" "$*" >&2; }
+trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
+
+info "Starting backup"
+
+# Backup the most important directories into an archive named after
+# the machine this script is currently running on:
+
+restic -r {{ target_location }}/{{ backup_name }} \
+    backup {% for backup_source_dir in backup_include_list %} {{ backup_source_dir }} {% endfor %} \
+    --verbose \
+    --exclude-caches \
+{% if backup_exclude_file is defined %}
+    --exclude-file {{ backup_exclude_file }} \
+{% elif backup_exclude_list is defined %}
+{% for exclude in backup_exclude_list %}
+    --exclude '{{ exclude }}' \
+{% endfor %}
+{% endif %}
+{% if backup_exclude_larger_than is defined %}
+    --exclude-larger-than {{ backup_exclude_larger_than }}
+{% endif %}
+
+backup_exit=$?
+
+info "Pruning repository"
+
+restic -r {{ target_location }}/{{ backup_name }} forget \
+    --prune \
+{% if backup_prune_keep_within is defined %}
+    --keep-within {{ backup_prune_keep_within }} \
+{% endif %}
+{% if backup_prune_keep_last is defined %}
+    --keep-last {{ backup_prune_keep_last }} \
+{% endif %}
+{% if backup_prune_keep_minutely is defined %}
+    --keep-minutely {{ backup_prune_keep_minutely }} \
+{% endif %}
+{% if backup_prune_keep_hourly is defined %}
+    --keep-hourly {{ backup_prune_keep_hourly }} \
+{% endif %}
+{% if backup_prune_keep_daily is defined %}
+    --keep-daily {{ backup_prune_keep_daily }} \
+{% endif %}
+{% if backup_prune_keep_weekly is defined %}
+    --keep-weekly {{ backup_prune_keep_weekly }} \
+{% endif %}
+{% if backup_prune_keep_monthly is defined %}
+    --keep-monthly {{ backup_prune_keep_monthly }} \
+{% endif %}
+{% if backup_prune_keep_yearly is defined %}
+    --keep-yearly {{ backup_prune_keep_yearly }} \
+{% endif %}
+{% if backup_prune_keep_within_hourly is defined %}
+    --keep-yearly {{ backup_prune_keep_within_hourly }} \
+{% endif %}
+{% if backup_prune_keep_within_daily is defined %}
+    --keep-yearly {{ backup_prune_keep_within_daily }} \
+{% endif %}
+{% if backup_prune_keep_within_weekly is defined %}
+    --keep-yearly {{ backup_prune_keep_within_weekly }} \
+{% endif %}
+{% if backup_prune_keep_within_monthly is defined %}
+    --keep-yearly {{ backup_prune_keep_within_monthly }} \
+{% endif %}
+{% if backup_prune_keep_within_yearly is defined %}
+    --keep-yearly {{ backup_prune_keep_within_yearly }} \
+{% endif %}
+
+prune_exit=$?
+
+# use highest exit code as global exit code
+global_exit=$(( backup_exit > prune_exit ? backup_exit : prune_exit ))
+
+if [ ${global_exit} -eq 0 ]; then
+    info "Backup and Prune finished successfully"
+elif [ ${global_exit} -eq 1 ]; then
+    info "Backup and/or Prune finished with warnings"
+else
+    info "Backup and/or Prune finished with errors"
+fi
+
+exit ${global_exit}

@@ -1,0 +1,9 @@
+[Unit]
+Description=Automatic backup {{ service_name }}
+{% if backup_systemd_on_failure is defined %}{{ backup_systemd_on_failure }}{% endif %}
+
+[Service]
+Type=simple
+ExecStart=/bin/sh {{ systemd_script_target }}/automatic-backup-{{ service_name }}.sh
+User={{ backup_systemd_user }}
+Group={{ backup_systemd_group }}

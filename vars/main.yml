@@ -1,0 +1,3 @@
+---
+# vars file for ansible-role-backup
+systemd_script_target: /opt/backup

@@ -1,0 +1,26 @@
+---
+# defaults file for ansible-role-backup
+backup_delete: false
+backup_create: true
+backup_systemd_backup_target_dir: /etc/systemd/system/
+
+# borg defaults
+backup_borg_protocol: ssh
+backup_borg_encryption_method: repokey
+
+# restic defaults
+backup_restic_repo: local
+
+backup_schedule: "*-*-* 03:00:00"
+backup_prune_dryrun: false
+backup_prune_force: false
+backup_prune_stats: true
+backup_prune_list: true
+backup_prune_save_space: false
+
+# systemd specific parameters
+systemd_script_mode: 0774
+systemd_script_user: root
+backup_systemd_user: backup
+backup_systemd_group: backup
+systemd_service_mode: 0644

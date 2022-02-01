@@ -1,0 +1,8 @@
+- name: delete borg backup {{ target_location }}/{{ backup_name }}
+  expect:
+    command: borg delete {{ target_location }}/{{ backup_name }}
+    responses:
+      passphrase:
+      - "{{ backup_borg_encryption_key }}"
+      DELETE:
+      - "YES"

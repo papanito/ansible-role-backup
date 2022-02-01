@@ -1,0 +1,8 @@
+# - name: delete restic backup {{ target_location }}/{{ backup_name }}
+#   expect:
+#     command: restic delete {{ target_location }}/{{ backup_name }}
+#     responses:
+#       passphrase:
+#       - "{{ backup_borg_encryption_key }}"
+#       DELETE:
+#       - "YES"

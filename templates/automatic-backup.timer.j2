@@ -1,0 +1,13 @@
+[Unit]
+Description=Schedule backups '{{ service_name }}' during off peak hours
+Requires=automatic-backup-{{ service_name }}.service
+
+[Timer]
+OnCalendar={{ backup_schedule }}
+RandomizedDelaySec=7200
+
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+

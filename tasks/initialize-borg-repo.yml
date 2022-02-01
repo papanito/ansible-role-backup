@@ -1,0 +1,17 @@
+- name: initialize borg if not already done
+  block:
+    - name: check status of borg repo
+      expect:
+        command: borg info {{ target_location }}/{{ backup_name }}
+        responses:
+          passphrase: "{{ backup_borg_encryption_key }}"
+  rescue:
+  - name: initialize borg
+    expect:
+      command: borg init --encryption={{ backup_borg_encryption_method }} {{ target_location }}/{{ backup_name }}
+      responses:
+        passphrase:
+        - "{{ backup_borg_encryption_key }}"
+        - "{{ backup_borg_encryption_key }}"
+        - "n"
+        - ""

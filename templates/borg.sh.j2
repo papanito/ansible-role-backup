@@ -1,0 +1,105 @@
+#!/bin/sh
+
+# Setting this, so the repo does not need to be given on the commandline:
+
+export BORG_REPO={{ target_location }}/{{ backup_name }}
+
+# Setting this, so you won't be asked for your repository passphrase:
+export BORG_PASSPHRASE='{{ backup_borg_encryption_key }}'
+
+# some helpers and error handling:
+info() { printf "\n%s %s\n\n" "$( date )" "$*" >&2; }
+trap 'echo $( date ) Backup interrupted >&2; exit 2' INT TERM
+
+info "Starting backup"
+
+# Backup the most important directories into an archive named after
+# the machine this script is currently running on:
+
+borg create                         \
+    --verbose                       \
+    --filter AME                    \
+    --list                          \
+    --stats                         \
+    --show-rc                       \
+    --compression lz4               \
+    --exclude-caches                \
+{% if backup_exclude_file is defined %}
+    --exclude-from {{ backup_exclude_file }} \
+{% elif backup_exclude_list is defined %}
+{% for exclude in backup_exclude_list %}
+    --exclude '{{ exclude }}'      \
+{% endfor %}
+{% endif %}
+    ::'{hostname}-{now}'            \
+{% for backup_source_dir in backup_include_list %}
+    '{{ backup_source_dir }}'      \
+{% endfor %}
+    --remote-ratelimit 2048
+
+backup_exit=$?
+
+info "Pruning repository"
+
+# Use the `prune` subcommand to maintain 7 daily, 4 weekly and 6 monthly
+# archives of THIS machine. The '{hostname}-' prefix is very important to
+# limit prune's operation to this machine's archives and not apply to
+# other machines' archives also:
+
+borg prune                          \
+    --prefix '{hostname}-'          \
+    --show-rc                       \
+{% if backup_prune_dryrun%}
+    --dry-run \
+{% endif %}
+{% if backup_prune_force %}
+    --force \
+{% endif %}
+{% if backup_prune_stats %}
+    --stats \
+{% endif %}
+{% if backup_prune_list %}
+    --list \
+{% endif %}
+{% if backup_prune_keep_within is defined %}
+    --keep-within {{ backup_prune_keep_within }} \
+{% endif %}
+{% if backup_prune_keep_last is defined %}
+    --keep-last {{ backup_prune_keep_last }} \
+{% endif %}
+{% if backup_prune_keep_minutely is defined %}
+    --keep-minutely {{ backup_prune_keep_minutely }} \
+{% endif %}
+{% if backup_prune_keep_hourly is defined %}
+    --keep-hourly {{ backup_prune_keep_hourly }} \
+{% endif %}
+{% if backup_prune_keep_daily is defined %}
+    --keep-daily {{ backup_prune_keep_daily }} \
+{% endif %}
+{% if backup_prune_keep_weekly is defined %}
+    --keep-weekly {{ backup_prune_keep_weekly }} \
+{% endif %}
+{% if backup_prune_keep_monthly is defined %}
+    --keep-monthly {{ backup_prune_keep_monthly }} \
+{% endif %}
+{% if backup_prune_keep_yearly is defined %}
+    --keep-yearly {{ backup_prune_keep_yearly }} \
+{% endif %}
+{% if backup_prune_save_space %}
+    --save-space \
+{% endif %}
+
+prune_exit=$?
+
+# use highest exit code as global exit code
+global_exit=$(( backup_exit > prune_exit ? backup_exit : prune_exit ))
+
+if [ ${global_exit} -eq 0 ]; then
+    info "Backup and Prune finished successfully"
+elif [ ${global_exit} -eq 1 ]; then
+    info "Backup and/or Prune finished with warnings"
+else
+    info "Backup and/or Prune finished with errors"
+fi
+
+exit ${global_exit}

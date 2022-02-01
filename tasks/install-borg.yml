@@ -1,0 +1,6 @@
+# tasks file for ansible-role-backup
+- name: install borg
+  package:
+    name: borg
+    state: present
+  become: yes

@@ -1,0 +1,14 @@
+---
+- name: Create script folder
+  file:
+    path: "{{ systemd_script_target }}"
+    state: directory
+    mode: "{{ systemd_script_mode }}"
+    owner: "{{ systemd_script_user }}"
+  become: Yes
+- name: use "borg"
+  import_tasks: main_borg.yml
+  when: backup_engine == "borg"
+- name: use "restic"
+  import_tasks: main_restic.yml
+  when: backup_engine == "restic"

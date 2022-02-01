@@ -1,0 +1,17 @@
+- name: disable a timer automatic backup
+  systemd:
+    name: automatic-backup-{{ service_name }}.timer
+    state: started
+    enabled: no
+  become: Yes
+  ignore_errors: True
+- name: Remove systemd files
+  file:
+    path: "{{ systemd_script_target }}/{{ item }}"
+    state: absent
+  with_items:
+    - automatic-backup-{{ service_name }}.sh
+    - automatic-backup-{{ service_name }}.service
+    - automatic-backup-{{ service_name }}.timer
+  become: Yes
+  ignore_errors: True

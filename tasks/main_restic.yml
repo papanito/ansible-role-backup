@@ -1,0 +1,31 @@
+---
+- name: Set `target_location` to local
+  set_fact:
+    target_location: "{{ backup_target_dir }}"
+  when: backup_restic_repo == "local"
+- name: Set `target_location` to local directory
+  set_fact:
+    target_location: "{{ backup_restic_repo }}/{{ backup_target_dir }}"
+  when: backup_restic_repo != "local"
+- name: Set service name
+  set_fact:
+    service_name: "{{ backup_name }}-{{ backup_restic_repo | replace(':','-') | replace('/','') }}"
+- name: Set service name
+  set_fact:
+    service_name: "{{ backup_name }}-local"
+  when: backup_restic_repo == "local"
+- name: Install restic
+  import_tasks: install-restic.yml
+- name: Delete restic repository
+  import_tasks: delete-restic-repo.yml
+  when: backup_delete
+- name: Delete systemd service
+  import_tasks: delete-service.yml
+  when: backup_delete
+- name: Initialize restic repository
+  import_tasks: initialize-restic-repo.yml
+  when: backup_create
+- name: Install restic systemd service
+  import_tasks: install-service.yml
+  when: backup_create
+  become: yes
