@@ -5,6 +5,7 @@
     state: directory
     mode: "{{ systemd_script_mode }}"
     owner: "{{ systemd_script_user }}"
+    group: "{{ systemd_script_group }}"
   become: Yes
 - name: use "borg"
   import_tasks: main_borg.yml
