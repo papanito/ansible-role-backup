@@ -1,6 +1,6 @@
 # Ansible role "papanito.backup" <!-- omit in toc -->
 
-[![Ansible Role](https://img.shields.io/ansible/role/57847)](https://galaxy.ansible.com/papanito/borg) [![Ansible Quality Score](https://img.shields.io/ansible/quality/57847)](https://galaxy.ansible.com/papanito/borg) [![Ansible Role](https://img.shields.io/ansible/role/d/57847)](https://galaxy.ansible.com/papanito/borg) [![GitHub issues](https://img.shields.io/github/issues/papanito/ansible-role-backup)](https://github.com/papanito/ansible-role-backup/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/papanito/ansible-role-backup)](https://github.com/papanito/ansible-role-backup/pulls)
+[![Ansible Role](https://img.shields.io/ansible/role/57847)](https://galaxy.ansible.com/papanito/backup) [![Ansible Quality Score](https://img.shields.io/ansible/quality/57847)](https://galaxy.ansible.com/papanito/backup) [![Ansible Role](https://img.shields.io/ansible/role/d/57847)](https://galaxy.ansible.com/papanito/backup) [![GitHub issues](https://img.shields.io/github/issues/papanito/ansible-role-backup)](https://github.com/papanito/ansible-role-backup/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/papanito/ansible-role-backup)](https://github.com/papanito/ansible-role-backup/pulls)
 
 Ansible role do install and setup regular backups with either
 
@@ -58,6 +58,8 @@ These are all variables
 | `backup_target_dir` | Target directory of the backups on the `backup_borg_server` or `backup_restic_repo` | `"./backups/{{ backup_name }}"` |
 | `backup_delete`| **WARNING** If set to `true` then existing backup repository will be [deleted](https://borgbackup.readthedocs.io/en/stable/usage/delete.html)| `false` |
 | `backup_create`| Creation of repository. You can use the role to explicitly delete an existing `repository` by running the role with `-e backup_delete=true -e backup_create=false` | `true`|
+| `systemd_script_user` | User for permissions of script | `root` |
+| `systemd_script_group` | User group for permissions of script | `wheel` |
 | `backup_schedule`| Systemd schedule notation for the daily backup to run| `*-*-* 03:00:00`|
 | `backup_include_list`| List of source directories to backup | - |
 | `backup_exclude_file`| [`EXCLUDEFILE`](https://borgbackup.readthedocs.io/en/stable/usage/create.html) which contains exclude patterns<br>Takes precedence over `backup_exclude_list`| - |
