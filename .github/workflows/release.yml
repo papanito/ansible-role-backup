@@ -23,9 +23,7 @@ jobs:
     - name: Create ansible.cfg with correct roles_path
       run: printf '[defaults]\nroles_path=../:./' >ansible.cfg
     - name: Run ansible syntax-check
-      run: ansible-playbook tests/test_borg.yml -i tests/inventory --syntax-check
-    - name: Run ansible syntax-check
-      run: ansible-playbook tests/test_restic.yml -i tests/inventory --syntax-check
+      run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
   prepare-release:
     name: Prepare Release
@@ -49,7 +47,7 @@ jobs:
         with:
           commit_message: "meta: Update changelog, bump version"
           file_pattern: ./VERSION ./CHANGELOG.md
-          commit_user_name: My GitHub Actions Bot
+          commit_user_name: GitHub Actions
           commit_user_email: ci@wyssmann.com
           commit_author: Papanito <papanito@wyssmann.com>
           push_options: --force
