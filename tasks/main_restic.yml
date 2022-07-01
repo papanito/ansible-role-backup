@@ -1,9 +1,9 @@
 ---
-- name: Set `target_location` to local
+- name: Set `target_location` to local directory
   set_fact:
     target_location: "{{ backup_target_dir }}"
   when: backup_restic_repo is not defined
-- name: Set `target_location` to local directory
+- name: Set `target_location` to remote repo
   set_fact:
     target_location: "{{ backup_restic_repo }}:{{ backup_target_dir }}"
   when: backup_restic_repo is defined
