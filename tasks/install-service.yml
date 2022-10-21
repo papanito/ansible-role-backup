@@ -1,22 +1,31 @@
+---
 - name: Install backup script for {{ service_name }}
-  template:
+  ansible.builtin.template:
     src: "{{ backup_engine }}.sh.j2"
     dest: "{{ systemd_script_target }}/automatic-backup-{{ service_name }}.sh"
     owner: "{{ backup_systemd_user }}"
     group: "{{ backup_systemd_group }}"
     mode: "{{ systemd_script_mode }}"
+  tags:
+    - backup
 - name: Install systemd service for repository {{ service_name }}
-  template:
+  ansible.builtin.template:
     src: automatic-backup.service.j2
     dest: "{{ backup_systemd_backup_target_dir }}/automatic-backup-{{ service_name }}.service"
     mode: "{{ systemd_service_mode }}"
+  tags:
+    - backup
 - name: Install systemd timer for repository {{ service_name }}
-  template:
+  ansible.builtin.template:
     src: automatic-backup.timer.j2
     dest: "{{ backup_systemd_backup_target_dir }}/automatic-backup-{{ service_name }}.timer"
     mode: "{{ systemd_service_mode }}"
+  tags:
+    - backup
 - name: enable a timer automatic backup
-  systemd:
+  ansible.builtin.systemd:
     name: automatic-backup-{{ service_name }}.timer
     state: started
-    enabled: yes
+    enabled: true
+  tags:
+    - backup

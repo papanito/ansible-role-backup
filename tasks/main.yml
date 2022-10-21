@@ -6,10 +6,16 @@
     mode: "{{ systemd_script_mode }}"
     owner: "{{ systemd_script_user }}"
     group: "{{ systemd_script_group }}"
-  become: Yes
-- name: use "borg"
+  become: true
+  tags:
+    - backup
+- name: Use "borg" as backend
   import_tasks: main_borg.yml
   when: backup_engine == "borg"
-- name: use "restic"
+  tags:
+    - backup
+- name: Use "restic" as backend
   import_tasks: main_restic.yml
   when: backup_engine == "restic"
+  tags:
+    - backup

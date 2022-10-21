@@ -265,7 +265,7 @@ This will create a backup at `/var/backup/mybackupname` and the following system
   remote_user: root
   vars:
   - backup_engine: restic
-  - backup_include_list:
+  - backup_include_list :
     - /home/aedu/Downloads/Fotos
   - backup_engine: restic
   - backup_systemd_user: root
