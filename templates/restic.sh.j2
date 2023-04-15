@@ -7,95 +7,92 @@ export RESTIC_REPOSITORY={{ target_location }}/{{ backup_name }}
 # Setting this, so you won't be asked for your repository passphrase:
 export RESTIC_PASSWORD='{{ backup_borg_encryption_key }}'
 
-{% if AWS_ACCESS_KEY_ID is defined %}
-export AWS_ACCESS_KEY_ID={{ AWS_ACCESS_KEY_ID }}
+{% if aws_access_key_id is defined %}
+export AWS_ACCESS_KEY_ID={{ aws_access_key_id }}
 {% endif %}
-{% if AWS_DEFAULT_REGION is defined %}
-export AWS_DEFAULT_REGION={{ AWS_DEFAULT_REGION }}
+{% if aws_default_region is defined %}
+export AWS_DEFAULT_REGION={{ aws_default_region }}
 {% endif %}
-{% if AWS_SECRET_ACCESS_KEY is defined %}
-export AWS_SECRET_ACCESS_KEY={{ AWS_SECRET_ACCESS_KEY }}
+{% if aws_secret_access_key is defined %}
+export AWS_SECRET_ACCESS_KEY={{ aws_secret_access_key }}
 {% endif %}
-{% if AZURE_ACCOUNT_KEY is defined %}
-export AZURE_ACCOUNT_KEY={{ AZURE_ACCOUNT_KEY }}
+{% if azure_account_key is defined %}
+export AZURE_ACCOUNT_KEY={{ azure_account_key }}
 {% endif %}
-{% if AZURE_ACCOUNT_NAME is defined %}
-export AZURE_ACCOUNT_NAME={{ AZURE_ACCOUNT_NAME }}
+{% if azure_account_name is defined %}
+export AZURE_ACCOUNT_NAME={{ azure_account_name }}
 {% endif %}
-{% if B2_ACCOUNT_ID is defined %}
-export B2_ACCOUNT_ID={{ B2_ACCOUNT_ID }}
+{% if b2_account_id is defined %}
+export B2_ACCOUNT_ID={{ b2_account_id }}
 {% endif %}
-{% if B2_ACCOUNT_KEY is defined %}
-export B2_ACCOUNT_KEY={{ B2_ACCOUNT_KEY }}
+{% if b2_account_key is defined %}
+export B2_ACCOUNT_KEY={{ b2_account_key }}
 {% endif %}
-{% if GOOGLE_APPLICATION_CREDENTIALS is defined %}
-export GOOGLE_APPLICATION_CREDENTIALS={{ GOOGLE_APPLICATION_CREDENTIALS }}
+{% if google_application_credentials is defined %}
+export GOOGLE_APPLICATION_CREDENTIALS={{ google_application_credentials }}
 {% endif %}
-{% if GOOGLE_PROJECT_ID is defined %}
-export GOOGLE_PROJECT_ID={{ GOOGLE_PROJECT_ID }}
+{% if google_project_id is defined %}
+export GOOGLE_PROJECT_ID={{ google_project_id }}
 {% endif %}
-{% if OS_APPLICATION_CREDENTIAL_ID is defined %}
-export OS_APPLICATION_CREDENTIAL_ID={{ OS_APPLICATION_CREDENTIAL_ID }}
+{% if os_application_credential_id is defined %}
+export OS_APPLICATION_CREDENTIAL_ID={{ os_application_credential_id }}
 {% endif %}
-{% if OS_APPLICATION_CREDENTIAL_NAME is defined %}
-export OS_APPLICATION_CREDENTIAL_NAME={{ OS_APPLICATION_CREDENTIAL_NAME }}
+{% if os_application_credential_name is defined %}
+export OS_APPLICATION_CREDENTIAL_NAME={{ os_application_credential_name }}
 {% endif %}
-{% if OS_APPLICATION_CREDENTIAL_SECRET is defined %}
-export OS_APPLICATION_CREDENTIAL_SECRETS={{ OS_APPLICATION_CREDENTIAL_SECRETS }}
+{% if os_application_credential_secret is defined %}
+export OS_APPLICATION_CREDENTIAL_SECRET={{ os_application_credential_secret }}
 {% endif %}
-{% if OS_AUTH_TOKEN is defined %}
-export OS_AUTH_TOKEN={{ OS_AUTH_TOKEN }}
+{% if os_auth_token is defined %}
+export OS_AUTH_TOKEN={{ os_auth_token }}
 {% endif %}
-{% if OS_AUTH_URL is defined %}
-export OS_AUTH_URL={{ OS_AUTH_URL }}
+{% if os_auth_url is defined %}
+export OS_AUTH_URL={{ os_auth_url }}
 {% endif %}
-{% if OS_PASSWORD is defined %}
-export OS_PASSWORD={{ OS_PASSWORD }}
+{% if os_password is defined %}
+export OS_PASSWORD={{ os_password }}
 {% endif %}
-{% if OS_PROJECT_DOMAIN_ID is defined %}
-export OS_PROJECT_DOMAIN_ID={{ OS_PROJECT_DOMAIN_ID }}
+{% if os_project_domain_id is defined %}
+export OS_PROJECT_DOMAIN_ID={{ os_project_domain_id }}
 {% endif %}
-{% if OS_PROJECT_DOMAIN_NAME is defined %}
-export OS_PROJECT_DOMAIN_NAME={{ OS_PROJECT_DOMAIN_NAME }}
+{% if os_project_domain_name is defined %}
+export OS_PROJECT_DOMAIN_NAME={{ os_project_domain_name }}
 {% endif %}
-{% if OS_PROJECT_NAME is defined %}
-export OS_PROJECT_NAME={{ OS_PROJECT_NAME }}
+{% if os_project_name is defined %}
+export OS_PROJECT_NAME={{ os_project_name }}
 {% endif %}
-{% if OS_REGION_NAME is defined %}
-export OS_REGION_NAME={{ OS_REGION_NAME }}
+{% if os_region_name is defined %}
+export OS_REGION_NAME={{ os_region_name }}
 {% endif %}
-{% if OS_STORAGE_URL is defined %}
-export OS_TENANT_ID={{ OS_TENANT_ID }}
+{% if os_storage_url is defined %}
+export OS_STORAGE_URL={{ os_storage_url }}
 {% endif %}
-{% if OS_TENANT_ID is defined %}
-export OS_TENANT_NAME={{ OS_TENANT_NAME }}
+{% if os_trust_id is defined %}
+export OS_TRUST_ID={{ os_trust_id }}
 {% endif %}
-{% if OS_TENANT_NAME is defined %}
-export OS_TRUST_ID={{ OS_TRUST_ID }}
+{% if os_tenant_name is defined %}
+export OS_TENANT_NAME={{ os_tenant_name }}
 {% endif %}
-{% if OS_TRUST_ID is defined %}
-export OS_USER_DOMAIN_ID={{ OS_USER_DOMAIN_ID }}
+{% if os_user_domain_id is defined %}
+export OS_USER_DOMAIN_ID={{ os_user_domain_id }}
 {% endif %}
-{% if OS_USER_DOMAIN_ID is defined %}
-export OS_USER_DOMAIN_NAME={{ OS_USER_DOMAIN_NAME }}
+{% if os_user_domain_name is defined %}
+export OS_USER_DOMAIN_NAME={{ os_user_domain_name }}
 {% endif %}
-{% if OS_USER_DOMAIN_NAME is defined %}
-export OS_USER_ID={{ OS_USER_ID }}
+{% if os_user_id is defined %}
+export OS_USER_ID={{ os_user_id }}
 {% endif %}
-{% if OS_USER_ID is defined %}
-export OS_USERNAME={{ OS_USERNAME }}
+{% if os_username is defined %}
+export OS_USERNAME={{ os_username }}
 {% endif %}
-{% if OS_USERNAME is defined %}
-export SOS_STORAGE_URL={{ SOS_STORAGE_URL }}
+{% if st_auth is defined %}
+export ST_AUTH={{ st_auth }}
 {% endif %}
-{% if ST_AUTH is defined %}
-export ST_AUTH={{ ST_AUTH }}
+{% if st_key is defined %}
+export ST_KEY={{ st_key }}
 {% endif %}
-{% if ST_KEY is defined %}
-export ST_KEY={{ ST_KEY }}
-{% endif %}
-{% if ST_USER is defined %}
-export ST_USER={{ ST_USER }}
+{% if st_user is defined %}
+export ST_USER={{ st_user }}
 {% endif %}
 
 # some helpers and error handling:

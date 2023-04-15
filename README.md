@@ -90,36 +90,36 @@ Restic also need environment variables for authentication, so they have to be se
 
 | Parameter| Description | Default Value |
 | -------- | ----------- | ------------- |
-| AWS_ACCESS_KEY_ID | Amazon S3 access key ID | - |
-| AWS_SECRET_ACCESS_KEY | Amazon S3 secret access key | - |
-| AWS_DEFAULT_REGION | Amazon S3 default region | - |
-| ST_AUTH | Auth URL for keystone v1 authentication | - |
-| ST_USER | Username for keystone v1 authentication | - |
-| ST_KEY | Password for keystone v1 authentication | - |
-| OS_AUTH_URL | Auth URL for keystone authentication | - |
-| OS_REGION_NAME | Region name for keystone authentication | - |
-| OS_USERNAME | Username for keystone authentication | - |
-| OS_USER_ID | User ID for keystone v3 authentication | - |
-| OS_PASSWORD | Password for keystone authentication | - |
-| OS_TENANT_ID | Tenant ID for keystone v2 authentication | - |
-| OS_TENANT_NAME | Tenant name for keystone v2 authentication | - |
-| OS_USER_DOMAIN_NAME | User domain name for keystone authentication | - |
-| OS_USER_DOMAIN_ID | User domain ID for keystone v3 authentication | - |
-| OS_PROJECT_NAME | Project name for keystone authentication | - |
-| OS_PROJECT_DOMAIN_NAME | Project domain name for keystone authentication | - |
-| OS_PROJECT_DOMAIN_ID | Project domain ID for keystone v3 authentication | - |
-| OS_TRUST_ID | Trust ID for keystone v3 authentication | - |
-| OS_APPLICATION_CREDENTIAL_ID | Application Credential ID (keystone v3) | - |
-| OS_APPLICATION_CREDENTIAL_NAME | Application Credential Name (keystone v3) | - |
+| aws_access_key_id | Amazon S3 access key ID | - |
+| aws_secret_access_key | Amazon S3 secret access key | - |
+| aws_default_region | Amazon S3 default region | - |
+| st_auth | Auth URL for keystone v1 authentication | - |
+| st_user | Username for keystone v1 authentication | - |
+| st_key | Password for keystone v1 authentication | - |
+| os_auth_url | Auth URL for keystone authentication | - |
+| os_region_name | Region name for keystone authentication | - |
+| os_username | Username for keystone authentication | - |
+| os_user_id | User ID for keystone v3 authentication | - |
+| os_password | Password for keystone authentication | - |
+| os_tenant_id | Tenant ID for keystone v2 authentication | - |
+| os_tenant_name | Tenant name for keystone v2 authentication | - |
+| os_user_domain_name | User domain name for keystone authentication | - |
+| os_user_domain_id | User domain ID for keystone v3 authentication | - |
+| os_project_name | Project name for keystone authentication | - |
+| os_project_domain_name | Project domain name for keystone authentication | - |
+| os_project_domain_id | Project domain ID for keystone v3 authentication | - |
+| os_trust_id | Trust ID for keystone v3 authentication | - |
+| os_application_credential_id | Application Credential ID (keystone v3) | - |
+| os_application_credential_name | Application Credential Name (keystone v3) | - |
 | OS_APPLICATION_CREDENTIAL_SECRET | Application Credential Secret (keystone v3) | - |
-| OS_STORAGE_URL | Storage URL for token authentication | - |
-| OS_AUTH_TOKEN | Auth token for token authentication | - |
-| B2_ACCOUNT_ID | Account ID or applicationKeyId for Backblaze B2 | - |
-| B2_ACCOUNT_KEY | Account Key or applicationKey for Backblaze B2 | - |
-| AZURE_ACCOUNT_NAME | Account name for Azure | - |
-| AZURE_ACCOUNT_KEY | Account key for Azure | - |
-| GOOGLE_PROJECT_ID | Project ID for Google Cloud Storage | - |
-| GOOGLE_APPLICATION_CREDENTIALS | Application Credentials for Google Cloud Storage | - |
+| os_storage_url | Storage URL for token authentication | - |
+| os_auth_token | Auth token for token authentication | - |
+| b2_account_id | Account ID or applicationKeyId for Backblaze B2 | - |
+| b2_account_key | Account Key or applicationKey for Backblaze B2 | - |
+| azure_account_name | Account name for Azure | - |
+| azure_account_key | Account key for Azure | - |
+| google_project_id | Project ID for Google Cloud Storage | - |
+| google_application_credentials | Application Credentials for Google Cloud Storage | - |
 
 ### Borg specific variables
 
@@ -275,8 +275,8 @@ This will create a backup at `/var/backup/mybackupname` and the following system
   - backup_delete: true
   - backup_create: true
   - backup_source_dir: ./defaults
-  - B2_ACCOUNT_ID: XXXX
-  - B2_ACCOUNT_KEY: XXXX
+  - b2_account_id: XXXX
+  - b2_account_key: XXXX
 
   roles:
     - papanito.backup

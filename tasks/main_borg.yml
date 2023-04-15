@@ -1,49 +1,49 @@
 ---
 - name: Set `target_location` to remote
-  set_fact:
+  ansible.builtin.set_fact:
     target_location: "{{ backup_borg_protocol }}://{{ backup_user }}@{{ backup_borg_server }}:{{ backup_port }}/{{ backup_target_dir }}"
   when: backup_borg_server is defined
   tags:
     - backup
 - name: Set `target_location` to local directory
-  set_fact:
+  ansible.builtin.set_fact:
     target_location: "{{ backup_target_dir }}"
   when: backup_borg_server is not defined
   tags:
     - backup
 - name: Set service name for remote
-  set_fact:
+  ansible.builtin.set_fact:
     service_name: "{{ backup_name }}-{{ backup_borg_server }}"
   when: backup_borg_server is defined
   tags:
     - backup
 - name: Set service name for local
-  set_fact:
+  ansible.builtin.set_fact:
     service_name: "{{ backup_name }}-local"
   when: backup_borg_server is not defined
   tags:
     - backup
 - name: Install borg
-  import_tasks: install-borg.yml
+  ansible.builtin.import_tasks: install-borg.yml
   tags:
     - backup
 - name: Delete borg repository
-  import_tasks: delete-borg-repo.yml
+  ansible.builtin.import_tasks: delete-borg-repo.yml
   when: backup_delete
   tags:
     - backup
 - name: Delete systemd service
-  import_tasks: delete-service.yml
+  ansible.builtin.import_tasks: delete-service.yml
   when: backup_delete
   tags:
     - backup
 - name: Initialize borg repository
-  import_tasks: initialize-borg-repo.yml
+  ansible.builtin.import_tasks: initialize-borg-repo.yml
   when: backup_create
   tags:
     - backup
 - name: Install borg systemd service
-  import_tasks: install-service.yml
+  ansible.builtin.import_tasks: install-service.yml
   become: true
   tags:
     - backup

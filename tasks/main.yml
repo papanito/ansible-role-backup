@@ -1,6 +1,6 @@
 ---
 - name: Create script folder
-  file:
+  ansible.builtin.file:
     path: "{{ systemd_script_target }}"
     state: directory
     mode: "{{ systemd_script_mode }}"
@@ -10,12 +10,12 @@
   tags:
     - backup
 - name: Use "borg" as backend
-  import_tasks: main_borg.yml
+  ansible.builtin.import_tasks: main_borg.yml
   when: backup_engine == "borg"
   tags:
     - backup
 - name: Use "restic" as backend
-  import_tasks: main_restic.yml
+  ansible.builtin.import_tasks: main_restic.yml
   when: backup_engine == "restic"
   tags:
     - backup

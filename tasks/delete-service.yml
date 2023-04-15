@@ -1,17 +1,17 @@
-- name: disable a timer automatic backup
-  systemd:
+- name: Disable a timer automatic backup
+  ansible.builtin.systemd:
     name: automatic-backup-{{ service_name }}.timer
     state: started
-    enabled: no
-  become: Yes
-  ignore_errors: True
+    enabled: false
+  become: true
+  ignore_errors: true
 - name: Remove systemd files
-  file:
+  ansible.builtin.file:
     path: "{{ systemd_script_target }}/{{ item }}"
     state: absent
   with_items:
     - automatic-backup-{{ service_name }}.sh
     - automatic-backup-{{ service_name }}.service
     - automatic-backup-{{ service_name }}.timer
-  become: Yes
-  ignore_errors: True
+  become: true
+  ignore_errors: true
