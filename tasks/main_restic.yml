@@ -1,49 +1,49 @@
 ---
 - name: Set `target_location` to local directory
-  set_fact:
+  ansible.builtin.set_fact:
     target_location: "{{ backup_target_dir }}"
   when: backup_restic_repo is not defined
   tags:
     - backup
 - name: Set `target_location` to remote repo
-  set_fact:
+  ansible.builtin.set_fact:
     target_location: "{{ backup_restic_repo }}:{{ backup_target_dir }}"
   when: backup_restic_repo is defined
   tags:
     - backup
 - name: Set service name for remote restic
-  set_fact:
-    service_name: "{{ backup_name }}-{{ backup_restic_repo | replace(':','-') | replace('/','') }}"
+  ansible.builtin.set_fact:
+    service_name: "{{ backup_name }}-{{ backup_restic_repo | replace(':', '-') | replace('/', '') }}"
   when: backup_restic_repo is defined
   tags:
     - backup
 - name: Set service name for local restic
-  set_fact:
+  ansible.builtin.set_fact:
     service_name: "{{ backup_name }}-local"
   when: backup_restic_repo is not defined
   tags:
     - backup
 - name: Install restic
-  import_tasks: install-restic.yml
+  ansible.builtin.import_tasks: install-restic.yml
   tags:
     - backup
 - name: Delete restic repository
-  import_tasks: delete-restic-repo.yml
+  ansible.builtin.import_tasks: delete-restic-repo.yml
   when: backup_delete
   tags:
     - backup
 - name: Delete systemd service
-  import_tasks: delete-service.yml
+  ansible.builtin.import_tasks: delete-service.yml
   when: backup_delete
   tags:
     - backup
 - name: Install restic systemd service
-  import_tasks: install-service.yml
+  ansible.builtin.import_tasks: install-service.yml
   become: true
   tags:
     - backup
 - name: Initialize restic repository
-  import_tasks: initialize-restic-repo.yml
+  ansible.builtin.import_tasks: initialize-restic-repo.yml
   when: backup_create
   tags:
     - backup

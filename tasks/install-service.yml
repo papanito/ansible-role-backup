@@ -22,7 +22,7 @@
     mode: "{{ systemd_service_mode }}"
   tags:
     - backup
-- name: enable a timer automatic backup
+- name: Enable a timer automatic backup
   ansible.builtin.systemd:
     name: automatic-backup-{{ service_name }}.timer
     state: started
