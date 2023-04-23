@@ -6,7 +6,7 @@
   - backup_borg_server: localhost
   - backup_systemd_user: root
   - backup_name: test
-  - backup_borg_encryption_key: test
+  - backup_encryption_key: test
   - backup_port: 23
   - backup_borg_encryption_method: repokey
   - backup_target_dir: "./backups/"

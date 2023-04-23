@@ -41,10 +41,10 @@ None
 
 To keep sensitive information hidden I recommend to use [`ansible-vault`](https://docs.ansible.com/ansible/latest/user_guide/vault.html)
 
-You can define the password file in `ansible.cfg` so none vault parameter has to be specified. Thus, the encrypted variable `backup_borg_encryption_key` can be created as follows:
+You can define the password file in `ansible.cfg` so none vault parameter has to be specified. Thus, the encrypted variable `backup_encryption_key` can be created as follows:
 
 ```bash
-ansible-vault encrypt_string'SupersecretPa$$phrase' --name 'backup_borg_encryption_key'
+ansible-vault encrypt_string'SupersecretPa$$phrase' --name 'backup_encryption_key'
 ```
 
 ### Common Variables
@@ -129,7 +129,7 @@ Restic also need environment variables for authentication, so they have to be se
 | `backup_user`| Name of the user to connect to the server| - |
 | `backup_borg_protocol` | backup_borg_protocol used to connect to `backup_borg_server`| `ssh` |
 | `backup_port`| Port to connect to `backup_borg_server` | - |
-| `backup_borg_encryption_key`| [mandatory] Passphrase for the encryption key using `repokey`| - |
+| `backup_encryption_key`| [mandatory] Passphrase for the encryption key using `repokey`| - |
 | `backup_borg_encryption_method` | Borg [encryption method](https://borgbackup.readthedocs.io/en/stable/usage/init.html#encryption-modes), currently only `repokey` implemented | `repokey` |
 
 ### Systemd Service specific variables
@@ -200,7 +200,7 @@ vars:
 - backup_borg_server: borg.intra
 - backup_user: borguser
 - backup_name: mybackupname
-- backup_borg_encryption_key: test
+- backup_encryption_key: test
 - backup_port: 23
 - backup_target_dir: "/var/backups/"
 - backup_schedule: "*-*-* 03:00:00"
@@ -235,7 +235,7 @@ Including an example of how to use your role (for instance, with variables passe
   vars:
   - backup_engine: borg
   - backup_name: mybackupname
-  - backup_borg_encryption_key: test
+  - backup_encryption_key: test
   - backup_target_dir: "/var/backup/"
   - backup_schedule: "*-*-* 03:00:00"
   - backup_exclude_list:
@@ -270,7 +270,7 @@ This will create a backup at `/var/backup/mybackupname` and the following system
   - backup_engine: restic
   - backup_systemd_user: root
   - backup_name: test
-  - backup_borg_encryption_key: test
+  - backup_encryption_key: test
   - backup_target_dir: "/test"
   - backup_delete: true
   - backup_create: true
