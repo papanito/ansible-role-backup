@@ -3,7 +3,7 @@
   block:
     - name: Check status of restic repo "{{ target_location }}/{{ backup_name }}"
       ansible.builtin.expect:
-        command: restic stats -r "{{ target_location }}/{{ backup_name }}"
+        command: restic -r "{{ target_location }}/{{ backup_name }}" list snapshots
         responses:
           password: "{{ backup_encryption_key }}"
       become: true
