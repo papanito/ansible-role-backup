@@ -5,14 +5,14 @@
       ansible.builtin.expect:
         command: borg info {{ target_location }}/{{ backup_name }}
         responses:
-          passphrase: "{{ backup_borg_encryption_key }}"
+          passphrase: "{{ backup_encryption_key }}"
   rescue:
     - name: Initialize borg
       ansible.builtin.expect:
         command: borg init --encryption={{ backup_borg_encryption_method }} {{ target_location }}/{{ backup_name }}
         responses:
           passphrase:
-            - "{{ backup_borg_encryption_key }}"
-            - "{{ backup_borg_encryption_key }}"
+            - "{{ backup_encryption_key }}"
+            - "{{ backup_encryption_key }}"
             - "n"
             - ""

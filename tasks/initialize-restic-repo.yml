@@ -5,7 +5,7 @@
       ansible.builtin.expect:
         command: restic stats -r "{{ target_location }}/{{ backup_name }}"
         responses:
-          password: "{{ backup_borg_encryption_key }}"
+          password: "{{ backup_encryption_key }}"
       become: true
       become_user: "{{ backup_systemd_user }}"
       timeout: 240
@@ -46,8 +46,8 @@
         command: restic init -r "{{ target_location }}/{{ backup_name }}"
         responses:
           password:
-            - "{{ backup_borg_encryption_key }}"
-            - "{{ backup_borg_encryption_key }}"
+            - "{{ backup_encryption_key }}"
+            - "{{ backup_encryption_key }}"
             - "n"
             - ""
       environment:

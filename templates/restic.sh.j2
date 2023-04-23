@@ -5,7 +5,7 @@
 export RESTIC_REPOSITORY={{ target_location }}/{{ backup_name }}
 
 # Setting this, so you won't be asked for your repository passphrase:
-export RESTIC_PASSWORD='{{ backup_borg_encryption_key }}'
+export RESTIC_PASSWORD='{{ backup_encryption_key }}'
 
 {% if aws_access_key_id is defined %}
 export AWS_ACCESS_KEY_ID={{ AWS_ACCESS_KEY_ID }}

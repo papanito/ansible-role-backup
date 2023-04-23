@@ -5,7 +5,7 @@
 export BORG_REPO={{ target_location }}/{{ backup_name }}
 
 # Setting this, so you won't be asked for your repository passphrase:
-export BORG_PASSPHRASE='{{ backup_borg_encryption_key }}'
+export BORG_PASSPHRASE='{{ backup_encryption_key }}'
 
 # some helpers and error handling:
 info() { printf "\n%s %s\n\n" "$( date )" "$*" >&2; }

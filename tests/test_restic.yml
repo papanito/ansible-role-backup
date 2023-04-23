@@ -7,7 +7,7 @@
   - backup_engine: restic
   - backup_systemd_user: root
   - backup_name: test
-  - backup_borg_encryption_key: test
+  - backup_encryption_key: test
   - backup_target_dir: "/srv/backup/test"
   - backup_delete: true
   - backup_create: true
