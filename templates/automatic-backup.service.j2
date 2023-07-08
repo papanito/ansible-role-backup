@@ -1,6 +1,6 @@
 [Unit]
 Description=Automatic backup {{ service_name }}
-{% if backup_systemd_on_failure is defined %}{{ backup_systemd_on_failure }}{% endif %}
+{% if backup_systemd_on_failure is defined %}OnFailure={{ backup_systemd_on_failure }}{% endif %}
 
 [Service]
 Type=simple
