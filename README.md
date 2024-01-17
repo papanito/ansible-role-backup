@@ -1,6 +1,6 @@
 # Ansible role "papanito.backup" <!-- omit in toc -->
 
-[![Ansible Role](https://img.shields.io/ansible/role/57847)](https://galaxy.ansible.com/papanito/backup) [![Ansible Quality Score](https://img.shields.io/ansible/quality/57847)](https://galaxy.ansible.com/papanito/backup) [![Ansible Role](https://img.shields.io/ansible/role/d/57847)](https://galaxy.ansible.com/papanito/backup) [![GitHub issues](https://img.shields.io/github/issues/papanito/ansible-role-backup)](https://github.com/papanito/ansible-role-backup/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/papanito/ansible-role-backup)](https://github.com/papanito/ansible-role-backup/pulls)
+[![Ansible Role](https://img.shields.io/ansible/role/d/papanito/backup)](https://galaxy.ansible.com/papanito/backup) [![GitHub issues](https://img.shields.io/github/issues/papanito/ansible-role-backup)](https://github.com/papanito/ansible-role-backup/issues) [![GitHub pull requests](https://img.shields.io/github/issues-pr/papanito/ansible-role-backup)](https://github.com/papanito/ansible-role-backup/pulls)
 
 Ansible role do install and setup regular backups with either
 
@@ -295,6 +295,5 @@ Written by [Papanito](https://wyssmann.com) - [Gitlab](https://gitlab.com/papani
 [borg]: https://github.com/borgbackup/borg
 [borg init]: https://borgbackup.readthedocs.io/en/stable/usage/init.html
 [restic]: https://restic.readthedocs.io
-[`prune` (borg)]: https://borgbackup.readthedocs.io/en/stable/usage/prune.x
-html
+[`prune` (borg)]: https://borgbackup.readthedocs.io/en/stable/usage/prune.html
 [`forget` (restic)]: https://restic.readthedocs.io/en/stable/060_forget.html
